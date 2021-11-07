@@ -1,0 +1,5 @@
+dist
+node_modules
+.cache
+js/events/*.json
+js/cards/*.json
