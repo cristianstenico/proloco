@@ -8,6 +8,7 @@
     <style>
         .hand {
             display: flex;
+            align-items: flex-start;
         }
 
         .hand>div {
@@ -43,15 +44,19 @@
         .hand .up {
             border-bottom: 1px solid;
             /*background-color: #a4dda0;*/
+            position: relative;
+            padding-top: 35px !important;
         }
 
         .hand .down {
             /*background-color: #e7a389;*/
+            position: relative;
+            padding-bottom: 30px !important;
         }
 
         .hand .up:hover,
         .hand .down:hover {
-            font-size: 1.2rem;
+            background-color: rgb(223, 223, 223);
         }
 
         .result {
@@ -95,6 +100,26 @@
 
         .c i {
             color: rgb(230, 138, 0);
+        }
+
+        .pre,
+        .post {
+            position: absolute;
+            color: rgba(255, 255, 255, .8);
+            padding: 5px;
+            left: 0;
+            right: 0;
+            text-align: right;
+        }
+
+        .pre {
+            top: 0;
+            background: seagreen;
+        }
+
+        .post {
+            background: rgb(170, 30, 30);
+            bottom: 0;
         }
     </style>
 </head>

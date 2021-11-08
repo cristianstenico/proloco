@@ -1,11 +1,11 @@
 import { Client } from 'boardgame.io/client'
-import Proloco from './game.js'
+import game from './game.js'
 
 /* eslint-disable no-new */
 
 class ProLocoClient {
   constructor (rootElement) {
-    this.client = Client({ game: Proloco })
+    this.client = Client({ game })
     this.client.start()
     this.rootElement = rootElement
     this.createBoard()
