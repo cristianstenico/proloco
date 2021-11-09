@@ -41,10 +41,18 @@ export default {
     playCard: (G, ctx, idCard, idEvent, up) => {
       const card = G.hands[ctx.currentPlayer].find(x => x.name === idCard)
       const event = G.events.find(x => x.event.name === idEvent)
+      if (event.cards.length + 1 === event.people) {
+        if (event.event.A - (card[up ? 'up' : 'down'].values.A || 0) > 0)
+          return INVALID_MOVE
+        if (event.event.B - (card[up ? 'up' : 'down'].values.B || 0) > 0)
+          return INVALID_MOVE
+        if (event.event.C - (card[up ? 'up' : 'down'].values.C || 0) > 0)
+          return INVALID_MOVE
+      }
       // validate pre-requisites
       if (up) {
         if (card.up.pre.events) {
-          const [op, n] = card.up.pre.events.split('-')
+          const [op, n] = card.up.pre.events.split(' ')
           switch (op) {
             case '=':
               if (G.eventsFilled !== parseInt(n)) return INVALID_MOVE
@@ -60,7 +68,7 @@ export default {
         let err = false;
         ['A', 'B', 'C'].forEach(x => {
           if (card.up.pre[x]) {
-            const [op, n] = card.up.pre[x].split('-')
+            const [op, n] = card.up.pre[x].split(' ')
             switch (op) {
               case '=':
                 if (event[x] !== parseInt(n)) err = true
@@ -76,10 +84,11 @@ export default {
         })
         if (err) return INVALID_MOVE
       }
-      event.event.A -= card[up ? 'up' : 'down'].values.A
-      event.event.B -= card[up ? 'up' : 'down'].values.B
-      event.event.C -= card[up ? 'up' : 'down'].values.C
+      event.event.A -= card[up ? 'up' : 'down'].values.A || 0
+      event.event.B -= card[up ? 'up' : 'down'].values.B || 0
+      event.event.C -= card[up ? 'up' : 'down'].values.C || 0
       event.cards.push(up ? card.up.values : card.down.values)
+      event.event.people--
       // trigger post action
       if (!up) {
         for (let i = 0; i < card.down.post.events; i++) {

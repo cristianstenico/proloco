@@ -4,7 +4,7 @@ import game from './game.js'
 /* eslint-disable no-new */
 
 class ProLocoClient {
-  constructor (rootElement) {
+  constructor(rootElement) {
     this.client = Client({ game })
     this.client.start()
     this.rootElement = rootElement
@@ -32,17 +32,17 @@ class ProLocoClient {
     let events = ''
     this.client.getState().G.hands[parseInt(this.client.getState().ctx.currentPlayer)].forEach(x => {
       let pre = ''
-      if (x.up.pre.A) {
-        pre += '<i class="fas fa-euro-sign"></i> ' + x.up.pre.A.split('-').join(' ')
+      if (x.up.pre.startsWith('A')) {
+        pre += '<i class="fas fa-euro-sign"></i> ' + x.up.pre.substring(2)
       }
-      if (x.up.pre.B) {
-        pre += '<i class="fas fa-box"></i> ' + x.up.pre.B.split('-').join(' ')
+      if (x.up.pre.startsWith('B')) {
+        pre += '<i class="fas fa-box"></i> ' + x.up.pre.substring(2)
       }
-      if (x.up.pre.C) {
-        pre += '<i class="fas fa-carrot"></i> ' + x.up.pre.C.split('-').join(' ')
+      if (x.up.pre.startsWith('C')) {
+        pre += '<i class="fas fa-carrot"></i> ' + x.up.pre.substring(2)
       }
-      if (x.up.pre.events) {
-        pre += '<i class="fas fa-calendar-check"></i> ' + x.up.pre.events.split('-').join(' ')
+      if (x.up.pre.startsWith('events')) {
+        pre += '<i class="fas fa-calendar-check"></i> ' + x.up.pre.substring(7)
       }
       let post = ''
       if (x.down.post.events) {
@@ -51,9 +51,9 @@ class ProLocoClient {
       hands += `<div class="card" id="card-${x.name}">
         <div class="up">
           <div class="pre">${pre}</div>
-          <div class="a"><i class="fas fa-euro-sign"></i> ${x.up.values.A}</div>
-          <div class="b"><i class="fas fa-box"></i> ${x.up.values.B}</div>
-          <div class="c"><i class="fas fa-carrot"></i> ${x.up.values.C}</div>
+          ${x.up.values.A ? '<div class="a"><i class="fas fa-euro-sign"></i>' + x.up.values.A + '</div>' : ''}
+          ${x.up.values.B ? '<div class="b"><i class="fas fa-box"></i>' + x.up.values.B + '</div>' : ''}
+          ${x.up.values.C ? '<div class="c"><i class="fas fa-carrot"></i>' + x.up.values.C + '</div>' : ''}
         </div>
         <div class="down">
           <div class="a"><i class="fas fa-euro-sign"></i> ${x.down.values.A}</div>
@@ -68,29 +68,33 @@ class ProLocoClient {
       let cards = ''
       event.cards.forEach(card => {
         cards += `
-        <li>
-        <div class="a"><i class="fas fa-euro-sign"></i> ${card.A}</div>
-        <div class="b"><i class="fas fa-box"></i> ${card.B}</div>
-        <div class="c"><i class="fas fa-carrot"></i> ${card.C}</div>
-        </li>
+        <div>
+          ${card.A ? '<div class="a"><i class="fas fa-euro-sign"></i> ' + card.A + '</div>' : ''}
+          ${card.B ? '<div class="b"><i class="fas fa-box"></i> ' + card.B + '</div>' : ''}
+          ${card.C ? '<div class="c"><i class="fas fa-carrot"></i> ' + card.C + '</div>' : ''}
+        </div>
         `
       })
       events += `
-      <li class="event" id="event-${event.event.name}">
-      <div class="id-event">${event.event.name}</div>
-      <div class="a"><i class="fas fa-euro-sign"></i> ${event.event.A}</div>
-      <div class="b"><i class="fas fa-box"></i> ${event.event.B}</div>
-      <div class="c"><i class="fas fa-carrot"></i> ${event.event.C}</div>
-      <ul class="cards">
-      ${cards}
-      </ul>
-      </li>
+      <div class="event-wrapper">
+        <div class="event" id="event-${event.event.name}">
+          <div class="a"><i class="fas fa-euro-sign"></i> ${event.event.A}</div>
+          <div class="b"><i class="fas fa-box"></i> ${event.event.B}</div>
+          <div class="c"><i class="fas fa-carrot"></i> ${event.event.C}</div>
+          <div class="people"><i class="fas fa-child"></i> ${event.event.people}</div>
+          <div class="id-event">${event.event.name}</div>
+        </div>
+        <div class="cards">
+          ${cards}
+        </div>
+      </div>
       `
     })
     this.rootElement.innerHTML = `
-        <ul id="events">
-       ${events}
-        </ul>
+        <div><b>Eventi completati: ${this.client.getState().G.eventsFilled}</b></div>
+        <div id="events">
+          ${events}
+        </div>
         <div class="hand">
           ${hands}
         </div>
