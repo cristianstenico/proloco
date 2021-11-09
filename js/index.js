@@ -1,11 +1,16 @@
 import { Client } from 'boardgame.io/client'
+import { Local, SocketIO } from 'boardgame.io/multiplayer'
 import game from './game.js'
 
 /* eslint-disable no-new */
 
 class ProLocoClient {
-  constructor(rootElement) {
-    this.client = Client({ game })
+  constructor(rootElement, { playerID } = {}) {
+    this.client = Client({
+      game,
+      multiplayer: SocketIO({ server: 'localhost:8000' }),
+      playerID
+    })
     this.client.start()
     this.rootElement = rootElement
     this.createBoard()
@@ -14,6 +19,7 @@ class ProLocoClient {
   }
 
   update (state) {
+    if (state === null) return
     if (state.ctx.gameover) {
       const resultElement = this.rootElement.querySelector('.result')
       if (state.ctx.gameover.win) {
@@ -30,7 +36,7 @@ class ProLocoClient {
   createBoard () {
     let hands = ''
     let events = ''
-    this.client.getState().G.hands[parseInt(this.client.getState().ctx.currentPlayer)].forEach(x => {
+    this.client.getState().G.hands[parseInt(this.client.playerID)].forEach(x => {
       let pre = ''
       if (x.up.pre.startsWith('A')) {
         pre += '<i class="fas fa-euro-sign"></i> ' + x.up.pre.substring(2)
@@ -130,4 +136,9 @@ class ProLocoClient {
 }
 
 const appElement = document.getElementById('app')
-new ProLocoClient(appElement)
+const playerIDs = ['0', '1']
+const clients = playerIDs.map(playerID => {
+  const rootElement = document.createElement('div')
+  appElement.append(rootElement)
+  return new ProLocoClient(rootElement, { playerID })
+})

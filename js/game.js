@@ -41,7 +41,7 @@ export default {
     playCard: (G, ctx, idCard, idEvent, up) => {
       const card = G.hands[ctx.currentPlayer].find(x => x.name === idCard)
       const event = G.events.find(x => x.event.name === idEvent)
-      if (event.cards.length + 1 === event.people) {
+      if (event.people === 1) {
         if (event.event.A - (card[up ? 'up' : 'down'].values.A || 0) > 0)
           return INVALID_MOVE
         if (event.event.B - (card[up ? 'up' : 'down'].values.B || 0) > 0)
