@@ -8,11 +8,12 @@ class ProLocoClient {
   constructor(rootElement, { playerID } = {}) {
     this.client = Client({
       game,
-      multiplayer: SocketIO({ server: 'localhost:8000' }),
+      multiplayer: Local(),
       playerID
     })
     this.client.start()
     this.rootElement = rootElement
+    this.boardElement = document.getElementById('board')
     this.createBoard()
     this.attachListeners()
     this.client.subscribe(state => this.update(state))
@@ -36,6 +37,8 @@ class ProLocoClient {
   createBoard () {
     let hands = ''
     let events = ''
+    const isCurrent = this.client.playerID === this.client.getState().ctx.currentPlayer
+    console.log(isCurrent, this.client.playerID)
     this.client.getState().G.hands[parseInt(this.client.playerID)].forEach(x => {
       let pre = ''
       if (x.up.pre.startsWith('A')) {
@@ -96,12 +99,17 @@ class ProLocoClient {
       </div>
       `
     })
-    this.rootElement.innerHTML = `
-        <div><b>Eventi completati: ${this.client.getState().G.eventsFilled}</b></div>
-        <div id="events">
+    if (isCurrent) {
+      this.boardElement.innerHTML = `
+        <div id="current-${this.client.playerID}"><b>Eventi completati: ${this.client.getState().G.eventsFilled}</b></div>
+        <div class="events" id="events-${this.client.playerID}">
           ${events}
         </div>
-        <div class="hand">
+    `
+    }
+    this.rootElement.innerHTML = `
+        <div class="hand ${isCurrent ? 'current-player' : ''}">
+          ${isCurrent ? '<h3>È il tuo turno</h3>' : ''}
           ${hands}
         </div>
         <div class="result"></div>
@@ -129,7 +137,7 @@ class ProLocoClient {
     this.rootElement.querySelectorAll('.card').forEach(x => {
       x.onclick = handleCardClick
     })
-    this.rootElement.querySelectorAll('.event').forEach(x => {
+    this.boardElement.querySelectorAll(`#events-${this.client.playerID} .event`).forEach(x => {
       x.onclick = handleEventClick
     })
   }
@@ -137,6 +145,9 @@ class ProLocoClient {
 
 const appElement = document.getElementById('app')
 const playerIDs = ['0', '1']
+const boardElement = document.createElement('div')
+boardElement.id = 'board'
+appElement.append(boardElement)
 const clients = playerIDs.map(playerID => {
   const rootElement = document.createElement('div')
   appElement.append(rootElement)

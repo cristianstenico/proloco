@@ -10,6 +10,17 @@
             display: flex;
             align-items: flex-start;
             margin-top: 1rem;
+            padding: 1rem;
+        }
+
+        .hand h3 {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            margin-left: 0;
+        }
+
+        .hand.current-player {
+            background-color: rgba(0, 0, 0, .2);
         }
 
         .hand>div {
@@ -18,6 +29,7 @@
             position: relative;
             cursor: pointer;
             transition: transform .2s;
+            background-color: #fff;
         }
 
         .hand>div:hover {
@@ -123,9 +135,8 @@
             bottom: 0;
         }
 
-        #events {
+        .events {
             display: flex;
-
         }
 
         .event {
