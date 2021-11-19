@@ -19,6 +19,7 @@ function getEvents () {
 }
 
 export default {
+  name: 'LocoProloco',
   setup: ctx => {
     const c = ctx.random.Shuffle(getCards())
     const e = ctx.random.Shuffle(getEvents())

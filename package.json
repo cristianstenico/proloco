@@ -4,14 +4,23 @@
         "boardgame.io": "^0.49.4"
     },
     "devDependencies": {
+        "@parcel/resolver-glob": "^2.0.1",
         "esm": "^3.2.25",
-        "parcel-bundler": "^1.0.0",
+        "node-persist": "^3.1.0",
+        "parcel": "^2.0.0",
         "standard": "^16.0.4"
     },
     "scripts": {
         "start": "parcel index.html --open --log-level verbose",
         "build": "npm i && node js/generate.js && parcel build index.html",
-        "serve": "node -r esm js/server.js"
+        "serve": "parcel build --target node js/server.js && node -r esm dist/server.js"
+    },
+    "targets": {
+        "node": {
+            "engines": {
+                "node": ">= 12"
+            }
+        }
     },
     "browserslist": "defaults and supports async-functions"
 }
