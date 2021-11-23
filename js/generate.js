@@ -24,7 +24,7 @@ for (let c = 0; c < nCards; c++) {
     values = {
       A: Math.floor(Math.random() * (operation === '<' ? 4 : operation === '>' ? 2 : 7)) + 1,
       B: Math.floor(Math.random() * (operation === '<' ? 4 : operation === '>' ? 2 : 7)) + 1,
-      C: Math.floor(Math.random() * (operation === '<' ? 4 : operation === '>' ? 2 : 7)) + 1,
+      C: Math.floor(Math.random() * (operation === '<' ? 4 : operation === '>' ? 2 : 7)) + 1
     }
   }
   const postEvents = Math.floor(Math.random() * 2) + 1

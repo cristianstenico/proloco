@@ -43,12 +43,9 @@ export default {
       const card = G.hands[ctx.currentPlayer].find(x => x.name === idCard)
       const event = G.events.find(x => x.event.name === idEvent)
       if (event.people === 1) {
-        if (event.event.A - (card[up ? 'up' : 'down'].values.A || 0) > 0)
-          return INVALID_MOVE
-        if (event.event.B - (card[up ? 'up' : 'down'].values.B || 0) > 0)
-          return INVALID_MOVE
-        if (event.event.C - (card[up ? 'up' : 'down'].values.C || 0) > 0)
-          return INVALID_MOVE
+        if (event.event.A - (card[up ? 'up' : 'down'].values.A || 0) > 0) { return INVALID_MOVE }
+        if (event.event.B - (card[up ? 'up' : 'down'].values.B || 0) > 0) { return INVALID_MOVE }
+        if (event.event.C - (card[up ? 'up' : 'down'].values.C || 0) > 0) { return INVALID_MOVE }
       }
       // validate pre-requisites
       if (up) {
