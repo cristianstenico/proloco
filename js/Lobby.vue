@@ -1,7 +1,10 @@
 <template lang="pug">
 .top-bar
   .top-bar-right
-    p {{ $store.state.playerName }}
+    ul.menu
+      li
+        i.fa-solid.fa-user-large
+        |  {{ $store.state.playerName }}
 .grid-container
   .grid-x
     .cell
@@ -9,8 +12,8 @@
       table
         thead
           tr
-            th Partite in corso
-            th giocatori
+            th Partita
+            th Giocatori
         tbody
           tr(v-if="!matches.length")
             td -
@@ -59,9 +62,10 @@ export default {
       })
       await this.listMatches()
     },
-    async joinMatch (match, playerID) {
-      await lobbyClient.joinMatch('LocoProloco', match, { playerID: playerID.toString(), playerName: this.$store.state.playerName })
-      this.$router.push(`/game/${match}`)
+    async joinMatch (matchID, playerID) {
+      const { playerCredentials } = await lobbyClient.joinMatch('LocoProloco', matchID, { playerID: playerID.toString(), playerName: this.$store.state.playerName })
+      this.$store.commit('setCredentials', playerCredentials)
+      this.$router.push({ name: 'game', params: { matchID, playerID, playerCredentials } })
     }
   }
 }

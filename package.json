@@ -24,9 +24,9 @@
         "eslint-plugin-vue": "7.19.1"
     },
     "scripts": {
-        "start": "parcel index.html --open --log-level verbose",
+        "client": "parcel index.html --open --log-level verbose",
         "build": "npm i && node js/generate.js && parcel build index.html",
-        "serve": "parcel build --target node js/server.js && node -r esm dist/server.js"
+        "start": "parcel build --target node js/server.js && node -r esm dist/server.js"
     },
     "targets": {
         "node": {

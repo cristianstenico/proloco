@@ -9,7 +9,7 @@ const router = createRouter({
   routes: [
     { name: 'login', path: '/', component: Login },
     { name: 'lobby', path: '/lobby', component: Lobby },
-    { name: 'game', path: '/game/:matchId', component: Game, props: true }
+    { name: 'game', path: '/game', component: Game, props: true }
   ]
 })
 
