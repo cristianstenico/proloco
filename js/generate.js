@@ -45,7 +45,7 @@ for (let c = 0; c < nCards; c++) {
       }
     }
   }
-  fs.writeFileSync(path.join(__dirname, `cards/${c}.json`, JSON.stringify(card)))
+  fs.writeFileSync(path.join(__dirname, `cards/${c}.json`), JSON.stringify(card))
 }
 for (let c = 0; c < nEvents; c++) {
   const eventA = Math.floor(Math.random() * 18) + 1
