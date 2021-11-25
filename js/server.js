@@ -7,5 +7,5 @@ const server = Server({
     Origins.LOCALHOST_IN_DEVELOPMENT
   ]
 })
-
-server.run(8000, () => console.log('server running...'))
+const PORT = process.env.PORT || 8000
+server.run(PORT)
