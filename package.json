@@ -26,14 +26,18 @@
     "scripts": {
         "start": "node js/generate.js && parcel build --target node js/server.js && node -r esm dist/server.js",
         "serve-client": "parcel index.html --open --log-level verbose",
-        "build-client": "npm i && node js/generate.js && parcel build index.html"
+        "build-client": "npm i && node js/generate.js && parcel build --target browser index.html"
     },
     "targets": {
         "node": {
             "engines": {
                 "node": ">= 12"
             }
+        },
+        "browser": {
+            "engines": {
+                "browserslist": "> 0.5%, last 2 versions, not dead"
+            }
         }
-    },
-    "browserslist": "defaults and supports async-functions"
+    }
 }
