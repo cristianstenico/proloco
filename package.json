@@ -32,7 +32,7 @@
     "scripts": {
         "start": "node js/generate.js && parcel build --target node js/server.js && node -r esm dist/server.js",
         "serve-client": "parcel index.html --open --log-level verbose",
-        "build-client": "npm i && node js/generate.js && parcel build --target browser index.html",
+        "build-client": "npm i && node js/generate.js && webpack",
         "build": "node js/generate.js && parcel build --target browser index.html"
     },
     "targets": {
