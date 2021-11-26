@@ -40,7 +40,7 @@
 <script>
 import { LobbyClient } from 'boardgame.io/client'
 const lobbyClient = new LobbyClient({
-  server: process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : ''
+  server: process.env.NODE_ENV === 'development' ? 'http://localhost:8000' : 'https://proloco-game.herokuapp.com'
 })
 export default {
   data () {
