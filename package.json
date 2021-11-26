@@ -30,9 +30,9 @@
         "webpack-cli": "^4.9.1"
     },
     "scripts": {
-        "start": "node js/generate.js && parcel build --target node js/server.js && node -r esm dist/server.js",
+        "start": "node src/generate.js && parcel build --target node src/server.js && node -r esm dist/server.js",
         "serve-client": "parcel index.html --open --log-level verbose",
-        "build-client": "npm i && node js/generate.js && webpack",
+        "build-client": "npm i && node src/generate.js && webpack",
         "build": "node js/generate.js && parcel build --target browser index.html"
     },
     "targets": {
