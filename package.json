@@ -1,14 +1,15 @@
 {
     "name": "proloco",
     "dependencies": {
+        "@parcel/resolver-glob": "^2.0.1",
         "boardgame.io": "^0.49.4",
+        "parcel": "^2.0.0",
         "vue": "^3.2.22",
         "vue-router": "^4.0.12",
         "vuex": "^4.0.2"
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.16.3",
-        "@parcel/resolver-glob": "^2.0.1",
         "@vue/compiler-sfc": "^3.2.23",
         "eslint": "8.0.0",
         "eslint-config-standard": "16.0.3",
@@ -20,7 +21,6 @@
         "esm": "^3.2.25",
         "html-webpack-plugin": "^5.5.0",
         "node-persist": "^3.1.0",
-        "parcel": "^2.0.0",
         "pug": "^3.0.2",
         "pug-plain-loader": "^1.1.0",
         "standard": "^16.0.4",
