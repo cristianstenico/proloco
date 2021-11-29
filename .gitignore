@@ -2,5 +2,5 @@ dist
 node_modules
 .vscode
 .parcel-cache
-js/events/*.json
-js/cards/*.json
+src/events.json
+src/cards.json

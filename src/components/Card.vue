@@ -1,8 +1,9 @@
 <template lang="pug">
 .card(
   :id="`card-${card.name}`"
+  :class="{selected}"
 )
-  .up
+  .up(@click="$emit('select', {id: card.name, top: true})")
     .pre
       template(v-if="card.up.pre.startsWith('A')")
         i.fa-solid.fa-euro-sign
@@ -25,7 +26,7 @@
     .c(v-if="card.up.values.C")
       i.fa-solid.fa-carrot
       |  {{ card.up.values.C }}
-  .down
+  .down(@click="$emit('select', {id: card.name, top: false})")
     .a
       i.fa-solid.fa-euro-sign
       |  {{card.down.values.A}}
@@ -46,6 +47,10 @@ export default {
   props: {
     card: {
       type: Object,
+      required: true
+    },
+    selected: {
+      type: Boolean,
       required: true
     }
   }

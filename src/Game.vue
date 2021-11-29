@@ -8,6 +8,7 @@ div(v-else-if="true")
     .event(
       v-for="event in state.G.events"
       :id="`event-${event.event.name}`"
+      @click="play(event.event.name)"
     )
       .a
         i.fa-solid.fa-euro-sign
@@ -38,6 +39,8 @@ div(v-else-if="true")
     card(
       v-for="card in state.G.hands[parseInt(playerID)]"
       :card="card"
+      :selected="card.name === selectedCard"
+      @play="play"
     )
   .result(v-if="gameover") {{ gameover }}
 </template>
@@ -69,7 +72,9 @@ export default {
       client: null,
       gameover: '',
       state: null,
-      unsubscribe: null
+      unsubscribe: null,
+      selectedCard: -1,
+      selectedCardTop: false
     }
   },
   computed: {
@@ -107,6 +112,15 @@ export default {
           this.gameover = 'YOU LOSE!'
         }
       }
+    },
+    select ({ id, top }) {
+      this.selectedCard = id
+      this.selectedCardTop = top
+    },
+    play (event) {
+      if (this.selectedCard === -1) return
+      this.client.moves.playCard(this.selected, event, this.selectedCardTop)
+      this.selectedCard = -1
     }
   }
 }
