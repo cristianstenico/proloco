@@ -1,5 +1,6 @@
 <template lang="pug">
 div(v-if="!state") ciao
+div(v-else-if="!state.G.events") Wait...
 div(v-else-if="true")
   h1(v-if="gameover") {{ gameover }}
   div(:id="`current-${this.client.playerID}`")
@@ -46,7 +47,7 @@ div(v-else-if="true")
 </template>
 <script>
 import { Client } from 'boardgame.io/client'
-import { SocketIO } from 'boardgame.io/multiplayer'
+import { SocketIO, Local } from 'boardgame.io/multiplayer'
 import Card from './components/Card.vue'
 import game from './game'
 export default {
@@ -86,11 +87,10 @@ export default {
   created () {
     this.client = Client({
       game,
-      multiplayer: SocketIO({ server: process.env.NODE_ENV === 'development' ? 'localhost:8000' : 'https://proloco-game.herokuapp.com' }),
+      multiplayer: process.env.NODE_ENV === 'development' ? Local() : SocketIO({ server: 'https://proloco-game.herokuapp.com' }),
       matchID: this.matchID,
       playerID: this.playerID,
-      credentials: this.playerCredentials,
-      board: 'ciccio'
+      credentials: this.playerCredentials
     })
     this.client.start()
     this.unsubscribe = this.client.subscribe(this.update)
@@ -101,7 +101,7 @@ export default {
     this.client = this.unsubscribe = this.state = null
   },
   methods: {
-    update (state) {
+    update (state, err) {
       console.log(state)
       this.state = state
       if (state === null) return
