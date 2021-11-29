@@ -80,16 +80,14 @@ export default {
   created () {
     this.client = Client({
       game,
-      multiplayer: SocketIO({ server: process.env.NODE_ENV === 'development' ? 'localhost:8000' : '' }),
+      multiplayer: SocketIO({ server: process.env.NODE_ENV === 'development' ? 'localhost:8000' : 'https://proloco-game.herokuapp.com' }),
       matchID: this.matchID,
       playerID: this.playerID,
       credentials: this.playerCredentials,
       board: 'ciccio'
     })
     this.client.start()
-    this.unsubscribe = this.client.subscribe(state => {
-      this.state = state
-    })
+    this.unsubscribe = this.client.subscribe(this.update)
   },
   unmounted () {
     this.unsubscribe()
