@@ -3,7 +3,7 @@ div(v-if="!state") ciao
 div(v-else-if="true")
   h1(v-if="gameover") {{ gameover }}
   div(:id="`current-${this.client.playerID}`")
-    b Eventi completati: {{ this.client.getState().G.eventsFilled }}
+    b Eventi completati: {{ state.G.eventsFilled }}
   .event-wrapper
     .event(
       v-for="event in state.G.events"
@@ -23,15 +23,16 @@ div(v-else-if="true")
         |  {{event.event.people}}
       .id-event {{ event.event.name }}
       .cards
-        .a(v-if="card.A")
-          i.fa-solid.fa-euro-sign
-          |  {{ card.A }}
-        .b(v-if="card.B")
-          i.fa-solid.fa-box
-          |  {{ card.B }}
-        .c(v-if="card.C")
-          i.fa-solid.fa-carrot
-          |  {{ card.C }}
+        div(v-for="card in event.cards")
+          .a(v-if="card.A")
+            i.fa-solid.fa-euro-sign
+            |  {{ card.A }}
+          .b(v-if="card.B")
+            i.fa-solid.fa-box
+            |  {{ card.B }}
+          .c(v-if="card.C")
+            i.fa-solid.fa-carrot
+            |  {{ card.C }}
   .hand(:class="{'current-player': isCurrent}")
     h3(v-if="isCurrent") È il tuo turno
     card(
