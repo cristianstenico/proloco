@@ -23,7 +23,7 @@ div(v-else-if="true")
       .people
         i.fa-solid.fa-child
         |  {{event.event.people}}
-      .id-event {{ event.event.name }}
+      .id-event(v-if="$store.state.showID") {{ event.event.name }}
       .cards
         div(v-for="card in event.cards")
           .a(v-if="card.A")
@@ -41,7 +41,7 @@ div(v-else-if="true")
       v-for="card in state.G.hands[parseInt(playerID)]"
       :card="card"
       :selected="card.name === selectedCard"
-      @play="play"
+      @select="select"
     )
   .result(v-if="gameover") {{ gameover }}
 </template>
@@ -49,7 +49,7 @@ div(v-else-if="true")
 import { Client } from 'boardgame.io/client'
 import { SocketIO, Local } from 'boardgame.io/multiplayer'
 import Card from './components/Card.vue'
-import game from './game'
+import game from './game.js'
 export default {
   components: {
     Card
@@ -85,6 +85,7 @@ export default {
     }
   },
   created () {
+    console.log(game)
     this.client = Client({
       game,
       multiplayer: process.env.NODE_ENV === 'development' ? Local() : SocketIO({ server: 'https://proloco-game.herokuapp.com' }),
@@ -101,7 +102,7 @@ export default {
     this.client = this.unsubscribe = this.state = null
   },
   methods: {
-    update (state, err) {
+    update (state) {
       console.log(state)
       this.state = state
       if (state === null) return
@@ -119,7 +120,7 @@ export default {
     },
     play (event) {
       if (this.selectedCard === -1) return
-      this.client.moves.playCard(this.selected, event, this.selectedCardTop)
+      this.client.moves.playCard(this.selectedCard, event, this.selectedCardTop)
       this.selectedCard = -1
     }
   }

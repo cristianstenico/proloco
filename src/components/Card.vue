@@ -40,7 +40,7 @@
       template(v-if="card.down.post.events")
         i.fa-solid.fa-calendar
         |  {{ card.down.post.events }}
-  #id-card {{card.name}}
+  #id-card(v-if="$store.state.showID") {{card.name}}
 </template>
 <script>
 export default {

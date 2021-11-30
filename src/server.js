@@ -9,4 +9,4 @@ const server = Server({
   ]
 })
 const PORT = process.env.PORT || 8000
-server.run(PORT)
+server.run(PORT, console.log)

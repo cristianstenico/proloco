@@ -28,7 +28,7 @@
                   ) {{p.name}}
                   a.button(
                     v-if="!p.name"
-                    @click="joinMatch(m.matchID, p.id)"
+                    @click="joinMatch(m.matchID)"
                   ) Aggiungiti
     .cell
       h2 Inizia una nuova Partita:
@@ -62,8 +62,8 @@ export default {
       })
       await this.listMatches()
     },
-    async joinMatch (matchID, playerID) {
-      const { playerCredentials } = await lobbyClient.joinMatch('LocoProloco', matchID, { playerID: playerID.toString(), playerName: this.$store.state.playerName })
+    async joinMatch (matchID) {
+      const { playerCredentials, playerID } = await lobbyClient.joinMatch('LocoProloco', matchID, { playerName: this.$store.state.playerName })
       this.$store.commit('setCredentials', playerCredentials)
       this.$router.push({ name: 'game', params: { matchID, playerID, playerCredentials } })
     }
