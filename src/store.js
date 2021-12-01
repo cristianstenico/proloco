@@ -12,6 +12,10 @@ export default createStore({
     },
     setCredentials (state, credentials) {
       state.credentials = credentials
+    },
+    clear (state) {
+      state.playerName = null
+      state.credentials = null
     }
   }
 })

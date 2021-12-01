@@ -1,49 +1,54 @@
 <template lang="pug">
-div(v-if="!state") ciao
-div(v-else-if="!state.G.events") Wait...
-div(v-else-if="true")
-  h1(v-if="gameover") {{ gameover }}
-  div(:id="`current-${this.client.playerID}`")
-    b Eventi completati: {{ state.G.eventsFilled }}
-  .event-wrapper
-    .event(
-      v-for="event in state.G.events"
-      :id="`event-${event.event.name}`"
-      @click="play(event.event.name)"
-    )
-      .a
-        i.fa-solid.fa-euro-sign
-        |  {{ event.event.A }}
-      .b
-        i.fa-solid.fa-box
-        |  {{ event.event.B }}
-      .c
-        i.fa-solid.fa-carrot
-        |  {{ event.event.C }}
-      .people
-        i.fa-solid.fa-child
-        |  {{event.event.people}}
-      .id-event(v-if="$store.state.showID") {{ event.event.name }}
-      .cards
-        div(v-for="card in event.cards")
-          .a(v-if="card.A")
-            i.fa-solid.fa-euro-sign
-            |  {{ card.A }}
-          .b(v-if="card.B")
-            i.fa-solid.fa-box
-            |  {{ card.B }}
-          .c(v-if="card.C")
-            i.fa-solid.fa-carrot
-            |  {{ card.C }}
-  .hand(:class="{'current-player': isCurrent}")
-    h3(v-if="isCurrent") È il tuo turno
-    card(
-      v-for="card in state.G.hands[parseInt(playerID)]"
-      :card="card"
-      :selected="card.name === selectedCard"
-      @select="select"
-    )
-  .result(v-if="gameover") {{ gameover }}
+.grid-container
+  .grid-x
+    .cell(v-if="!state") Wait...
+    .cell(v-else-if="!state.G.events") Wait...
+    .cell(v-else-if="true")
+      h1(v-if="gameover") {{ gameover }}
+      h5(:id="`current-${this.client.playerID}`") Eventi completati: {{ state.G.eventsFilled }}
+        | &nbsp;
+        i.fa-solid.fa-calendar-check
+      .event-area
+        h4 Eventi da completare:
+        .event-wrapper
+          .event(
+            v-for="event in state.G.events"
+            :id="`event-${event.event.name}`"
+            @click="play(event.event.name)"
+          )
+            .a
+              i.fa-solid.fa-euro-sign
+              |  {{ event.event.A }}
+            .b
+              i.fa-solid.fa-box
+              |  {{ event.event.B }}
+            .c
+              i.fa-solid.fa-carrot
+              |  {{ event.event.C }}
+            .people
+              i.fa-solid.fa-child
+              |  {{event.event.people}}
+            .id-event(v-if="$store.state.showID") {{ event.event.name }}
+            .cards
+              div(v-for="card in event.cards")
+                .a(v-if="card.A")
+                  i.fa-solid.fa-euro-sign
+                  |  {{ card.A }}
+                .b(v-if="card.B")
+                  i.fa-solid.fa-box
+                  |  {{ card.B }}
+                .c(v-if="card.C")
+                  i.fa-solid.fa-carrot
+                  |  {{ card.C }}
+      .hand(:class="{'current-player': isCurrent}")
+        h3(v-if="isCurrent") È il tuo turno
+        card(
+          v-for="card in state.G.hands[parseInt(playerID)]"
+          :card="card"
+          :selected="card.name === selectedCard"
+          @select="select"
+        )
+      .result(v-if="gameover") {{ gameover }}
 </template>
 <script>
 import { Client } from 'boardgame.io/client'

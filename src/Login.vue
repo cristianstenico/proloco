@@ -24,6 +24,7 @@ export default {
   methods: {
     enter () {
       this.$store.commit('authenticate', this.playerName)
+      window.localStorage.setItem('proloco-credentials', JSON.stringify({ playerName: this.playerName }))
       this.$router.push('lobby')
     }
   }

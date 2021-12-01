@@ -1,10 +1,4 @@
 <template lang="pug">
-.top-bar
-  .top-bar-right
-    ul.menu
-      li
-        i.fa-solid.fa-user-large
-        |  {{ $store.state.playerName }}
 .grid-container
   .grid-x
     .cell
@@ -22,10 +16,14 @@
             td {{ m.matchID }}
             td
               .button-group
-                template(v-for="p in m.players")
+                template(v-for="(p, index) in m.players")
+                  a.button.hollow(
+                    v-if="p.name === $store.state.playerName"
+                    @click="goToMatch(m.matchID, index, $store.state.credentials)"
+                  ) {{ p.name }}
                   a.button.hollow.disabled(
-                    v-if="p.name"
-                  ) {{p.name}}
+                    v-else-if="p.name"
+                  ) {{ p.name }}
                   a.button(
                     v-if="!p.name"
                     @click="joinMatch(m.matchID)"
@@ -62,9 +60,13 @@ export default {
       })
       await this.listMatches()
     },
+    async goToMatch (matchID, playerID, playerCredentials) {
+      this.$router.push({ name: 'game', params: { matchID, playerID, playerCredentials } })
+    },
     async joinMatch (matchID) {
       const { playerCredentials, playerID } = await lobbyClient.joinMatch('LocoProloco', matchID, { playerName: this.$store.state.playerName })
       this.$store.commit('setCredentials', playerCredentials)
+      window.localStorage.setItem('proloco-credentials', JSON.stringify({ playerName: this.$store.state.playerName, credentials: playerCredentials }))
       this.$router.push({ name: 'game', params: { matchID, playerID, playerCredentials } })
     }
   }

@@ -1,5 +1,5 @@
 <template lang="pug">
-.card(
+.card-praim(
   :id="`card-${card.name}`"
   :class="{selected}"
 )
