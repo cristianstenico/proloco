@@ -8,11 +8,10 @@
       h5(:id="`current-${this.client.playerID}`") Eventi completati: {{ state.G.eventsFilled }}
         | &nbsp;
         i.fa-solid.fa-calendar-check
+      h4 Eventi da completare:
       .event-area
-        h4 Eventi da completare:
-        .event-wrapper
+        .event-wrapper(v-for="event in state.G.events")
           .event(
-            v-for="event in state.G.events"
             :id="`event-${event.event.name}`"
             @click="play(event.event.name)"
           )
@@ -29,17 +28,17 @@
               i.fa-solid.fa-child
               |  {{event.event.people}}
             .id-event(v-if="$store.state.showID") {{ event.event.name }}
-            .cards
-              div(v-for="card in event.cards")
-                .a(v-if="card.A")
-                  i.fa-solid.fa-euro-sign
-                  |  {{ card.A }}
-                .b(v-if="card.B")
-                  i.fa-solid.fa-box
-                  |  {{ card.B }}
-                .c(v-if="card.C")
-                  i.fa-solid.fa-carrot
-                  |  {{ card.C }}
+          .cards
+            div(v-for="card in event.cards")
+              .a(v-if="card.A")
+                i.fa-solid.fa-euro-sign
+                |  {{ card.A }}
+              .b(v-if="card.B")
+                i.fa-solid.fa-box
+                |  {{ card.B }}
+              .c(v-if="card.C")
+                i.fa-solid.fa-carrot
+                |  {{ card.C }}
       .hand(:class="{'current-player': isCurrent}")
         h3(v-if="isCurrent") È il tuo turno
         card(

@@ -33,7 +33,10 @@
     .cell.medium-2
       label Numero giocatori
         input(id="numplayers" type="number" v-model="numPlayers")
-      a.button(@click="createMatch") Inizia
+      a.button(
+        @click="createMatch"
+        :class="{disabled: wait}"
+      ) Inizia
 </template>
 <script>
 import { LobbyClient } from 'boardgame.io/client'
@@ -44,7 +47,8 @@ export default {
   data () {
     return {
       matches: [],
-      numPlayers: 2
+      numPlayers: 2,
+      wait: false
     }
   },
   async created () {
@@ -55,10 +59,12 @@ export default {
       this.matches = (await lobbyClient.listMatches('LocoProloco')).matches
     },
     async createMatch () {
+      this.wait = true
       await lobbyClient.createMatch('LocoProloco', {
         numPlayers: this.numPlayers
       })
       await this.listMatches()
+      this.wait = false
     },
     async goToMatch (matchID, playerID, playerCredentials) {
       this.$router.push({ name: 'game', params: { matchID, playerID, playerCredentials } })
